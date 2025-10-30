@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "cb1ccdc6-2c42-417b-bfa9-f21b38dd4e1a",
+		"name": "cbs-2025",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28835286"
+	},
+	"item": [
+		{
+			"name": "vejr-app",
+			"item": [
+				{
+					"name": "GET /vejr/api/weather",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://165.22.66.89/vejr/api/weather?city=Copenhagen",
+							"protocol": "http",
+							"host": [
+								"165",
+								"22",
+								"66",
+								"89"
+							],
+							"path": [
+								"vejr",
+								"api",
+								"weather"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Copenhagen"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /vejr/api/weathers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://165.22.66.89/vejr/api/weathers?city=Aarhus,Copenhagen,Odense",
+							"protocol": "http",
+							"host": [
+								"165",
+								"22",
+								"66",
+								"89"
+							],
+							"path": [
+								"vejr",
+								"api",
+								"weathers"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Aarhus,Copenhagen,Odense"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cookie-app",
+			"item": [
+				{
+					"name": "HTTP methods",
+					"item": [
+						{
+							"name": "GET /user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/user"
+							},
+							"response": []
+						},
+						{
+							"name": "GET /user/:username",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/user/mikkel"
+							},
+							"response": []
+						},
+						{
+							"name": "POST /user/create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\n        \"username\": \"Hildur\",\n        \"email\": \"hil.digi@cbs.dk\",\n        \"password\": \"hildudigi\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://165.22.66.89/user/create"
+							},
+							"response": []
+						},
+						{
+							"name": "PUT /user/update/:username",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\n        \"username\": \"Hildur\",\n        \"email\": \"hil.digi@cbs.dk\",\n        \"password\": \"hildudigidoo\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://165.22.66.89/user/update/Hildur"
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /user/delete/:username",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://165.22.66.89/user/delete/Hildur"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cookies",
+					"item": [
+						{
+							"name": "GET /cookie/set",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/cookie/set"
+							},
+							"response": []
+						},
+						{
+							"name": "GET /cookie/get",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/cookie/get"
+							},
+							"response": []
+						},
+						{
+							"name": "GET /middleware",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/middleware"
+							},
+							"response": []
+						},
+						{
+							"name": "GET /cookie/set-session",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/cookie/set-session"
+							},
+							"response": []
+						},
+						{
+							"name": "GET /cookie/get-session",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/cookie/get-session"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "POST /auth/login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"mikkel\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://165.22.66.89/auth/login"
+							},
+							"response": []
+						},
+						{
+							"name": "POST /auth/logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "http://165.22.66.89/auth/logout"
+							},
+							"response": []
+						},
+						{
+							"name": "GET /auth/protected",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://165.22.66.89/auth/protected"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET /",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://165.22.66.89/"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://165.22.66.89/image"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

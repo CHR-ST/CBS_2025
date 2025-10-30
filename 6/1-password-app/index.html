@@ -1,0 +1,66 @@
+<html>
+
+<head>
+  <title>Password App</title>
+</head>
+
+<body>
+  <h1>Password App</h1>
+  <form id="loginForm">
+    <label for="username">Brugernavn:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="password">Adgangskode:</label>
+    <input type="password" id="password" name="password" required>
+    <br><br>
+    <button type="submit">Log ind</button>
+  </form>
+  
+  <div id="loginMessage"></div>
+  <br>
+    <button id="protectedBtn">Gå til den beskyttede side</button>
+  <br><br>
+  <div id="protectedMessage"></div>
+  <br>
+  <button id="logoutBtn">Log ud</button>
+  <br><br>
+  <div id="logoutMessage"></div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      console.log('Logging in with', username, password);
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+      document.getElementById('loginMessage').textContent = data.message;
+      document.getElementById('logoutMessage').textContent = '';
+      document.getElementById('protectedMessage').textContent = '';
+      document.getElementById('loginForm').reset();
+    });
+    document.getElementById('protectedBtn').addEventListener('click', async () => {
+      const response = await fetch('/protected');
+      const data = await response.json();
+      document.getElementById('protectedMessage').textContent = data.message;
+      document.getElementById('logoutMessage').textContent = '';
+    });
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      document.cookie = 'loggedIn=; Max-Age=0; path=/';
+      document.cookie = 'id=; Max-Age=0; path=/';
+      document.getElementById('logoutMessage').textContent = 'Du er nu logget ud.';
+      document.getElementById('loginMessage').textContent = '';
+      document.getElementById('protectedMessage').textContent = '';
+    });
+  </script>
+</body>
+
+</html>

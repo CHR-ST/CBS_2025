@@ -1,0 +1,144 @@
+<html>
+
+<head>
+  <title>Twilio Webhook App</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>Twilio Webhook App</h1>
+  <p>Velkommen til Twilio Webhook App.</p><br />
+  <table border="1" cellspacing="0" cellpadding="8">
+    <thead>
+      <tr>
+        <th>Endpoint</th>
+        <th>HTTP metode</th>
+        <th>Beskrivelse</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/twilio/message</code></td>
+        <td><code>POST</code></td>
+        <td>Modtage telefonnummer og besked som JSON data for at sende en SMS.</td>
+      </tr>
+            <tr>
+        <td><code>/twilio/message/webhook</code></td>
+        <td><code>POST</code></td>
+        <td>Webhook til håndtering af SMS beskeder. Skriv "hej" eller "farvel" for at interagere.</td>
+      </tr>
+      <tr>
+        <td><code>/twilio/voice</code></td>
+        <td><code>POST</code></td>
+        <td>Modtage telefonnummer og besked som JSON data for at foretage opkald.</td>
+      </tr>
+      <tr>
+        <td><code>/twilio/voice/webhook</code></td>
+        <td><code>POST</code></td>
+        <td>Webhook til håndtering af opkald.</td>
+      </tr>
+      <tr>
+        <td><code>/twilio/whatsapp/webhook</code></td>
+        <td><code>POST</code></td>
+        <td>Webhook til håndtering af WhatsApp beskeder. Skriv "køb" eller "slut" for at interagere.</td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <section>
+    <h2>Send besked</h2>
+    <form id="sendMessageForm">
+      <label>
+        Telefonnummer (otte cifre):
+        <input type="text" id="messagePhoneNumber">
+      </label>
+      <br />
+      <label>
+        Besked:
+        <textarea id="messageContent" maxlength="320" rows="1" style="resize: none; width: 282px;"></textarea>
+      </label>
+      <br /><br />
+      <button type="submit">Send</button>
+      <br /><br />
+      <div id="messageStatus" role="status" aria-live="polite"></div>
+    </form>
+
+    <br />
+
+    <h2>Foretag opkald</h2>
+    <form id="sendCallForm">
+      <label>
+        Telefonnummer (otte cifre):
+        <input type="text" id="callPhoneNumber">
+      </label>
+      <br />
+      <label>
+        Besked:
+        <textarea id="callMessage" maxlength="320" rows="1" style="resize: none; width: 282px;"></textarea>
+      </label>
+      <br /><br />
+      <button type="submit">Ring op</button>
+      <br /><br />
+      <div id="callStatus" role="status" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const smsForm = document.getElementById('sendMessageForm');
+    const callForm = document.getElementById('sendCallForm');
+    const smsStatus = document.getElementById('messageStatus');
+    const callStatus = document.getElementById('callStatus');
+
+    smsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      smsStatus.textContent = 'Sender besked...';
+      const phone = document.getElementById('messagePhoneNumber').value;
+      const message = document.getElementById('messageContent').value;
+
+      try {
+        const payload = { phone, message };
+        const res = await fetch('/twilio/message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const errText = await res.text().catch(() => res.statusText);
+          throw new Error(errText || `Status ${res.status}`);
+        }
+        const text = await res.text().catch(() => 'OK');
+        smsStatus.textContent = text;
+      } catch (err) {
+        smsStatus.textContent = (err.message || err);
+      }
+    });
+
+    callForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      callStatus.textContent = 'Starter opkald...';
+      const phone = document.getElementById('callPhoneNumber').value;
+      const message = document.getElementById('callMessage').value;
+
+     try {
+        const payload = { phone, message };
+        const res = await fetch('/twilio/voice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const errText = await res.text().catch(() => res.statusText);
+          throw new Error(errText || `Status ${res.status}`);
+        }
+        const text = await res.text().catch(() => 'OK');
+        callStatus.textContent = text;
+      } catch (err) {
+        callStatus.textContent = (err.message || err);
+      }
+    });
+  });
+  </script>
+</body>
+
+</html>

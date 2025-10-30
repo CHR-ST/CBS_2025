@@ -1,0 +1,68 @@
+<html>
+
+<head>
+  <title>CDN App</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>CDN App</h1>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <label for="image">Image:</label>
+    <input type="file" id="image" name="image" required><br><br>
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <h2>Uploads</h2>
+  <div id="uploads"></div>
+
+  <script>
+    const fetchUploads = async () => {
+      // Fetch og display uploads
+      const response = await fetch('/cdn/uploads');
+      const uploads = await response.json();
+      console.log(response);
+      console.log(uploads);
+      const uploadsDiv = document.getElementById('uploads');
+    uploadsDiv.innerHTML = '';
+    uploads.forEach(upload => {
+      const img = document.createElement('img');
+      img.src = upload.url;
+      img.alt = upload.caption;
+      img.style.maxWidth = '400px';
+      const caption = document.createElement('p');
+      caption.textContent = upload.caption;
+      uploadsDiv.appendChild(img);
+      uploadsDiv.appendChild(caption);
+    });
+  }  
+
+  fetchUploads();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // Stopper default GET request fra form
+
+      const formData = new FormData();
+      const imageFile = document.getElementById('image').files[0];
+
+      formData.append('image', imageFile);
+
+      const response = await fetch('/cdn/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      console.log(response)
+      console.log(data);
+      alert(data.message);
+      fetchUploads();
+    });
+  });
+
+  </script>
+</body>
+
+</html>
