@@ -134,7 +134,7 @@ Gem ændringerne i konfigurationen med CTRL+X og Y for Yes og Enter. Derefter ge
 ```
 sudo nginx -t
 
-sudo systemctl restart nginx
+	sudo systemctl restart nginx
 ```
 
 Kommandoer for at styre NGINX:

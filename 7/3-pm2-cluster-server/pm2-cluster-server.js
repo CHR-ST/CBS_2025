@@ -23,9 +23,19 @@ app.get("/api/:n", (req, res) => {
   res.send(`Final count is ${count} and check the response time in the header X-Response-Time`);
 });
 
-const server = app.listen(7000, () => {
+const PORT = process.env.PORT || 7000;
+
+const server = app.listen(PORT, () => {
+    const address = server.address();
+    if (address) {
+        console.log(`Worker ${process.pid} listening on port ${address.port}`);
+    }
+});
+
+/*const server = app.listen(7000, () => {
     console.log('Listening on port %d', server.address().port)
 })
+*/
 
 
 // start applikationsprocessen med pm2 med 4 instanser på CPU cores
