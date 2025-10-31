@@ -1,13 +1,13 @@
 // cluster-server.js
 const cluster = require('cluster');
 const os = require('os');
-const process = require('process');
 
 if (cluster.isPrimary) {
   const numCPUs = os.cpus().length;
   console.log(`Primary process ${process.pid} running`);
   console.log(`Forking ${numCPUs} workers...`);
 
+  // Start en worker for hver CPU-core
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
@@ -18,8 +18,8 @@ if (cluster.isPrimary) {
   });
 
 } else {
-  // hver worker starter app.js
-  const app = require('./app');
+  // Hver worker starter Express app
+  const app = require('./app');  
 
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
