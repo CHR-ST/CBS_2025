@@ -21,7 +21,7 @@ if (cluster.isPrimary) {
   // Hver worker starter Express app
   const app = require('./app');  
 
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Worker ${process.pid} listening on port ${PORT}`);
   });
